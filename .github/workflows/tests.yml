@@ -1,35 +1,25 @@
 name: Test Workflow
-
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "lab_solution" ]
   pull_request:
-    branches: [ "main" ]
-
+    branches: [ "main", "lab_solution" ]
 jobs:
   run-tests:
     runs-on: ubuntu-latest
-
     steps:
-      # Step 1 — Get your project code
       - name: Checkout code
         uses: actions/checkout@v3
-
-      # Step 2 — Choose Python version
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.10"
-
-      # Step 3 — Install dependencies in a virtual environment
       - name: Install dependencies
         run: |
           python -m venv venv
           source venv/bin/activate
-          pip install -r requirements.txt
-
-      # Step 4 — Run your unit tests
+          pip install flask pytest
       - name: Run unit tests
         run: |
           source venv/bin/activate
-          python -m unittest
+          python -m pytest test_hello_world.py -v
